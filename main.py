@@ -1,19 +1,19 @@
 #!/usr/bin/env python3
-"""The 3 AM Commit Message (make.fun).
+"""The 3 AM Commit Message — a make.fun one-line entry."""
 
-Writes the entry to /output/entry.txt, where the sealed scorer reads it.
-"""
+from pathlib import Path
 
-import os
+ENTRY = "fix(prod): the 3 AM deploy ate the database, so I apologised to the logs and pushed anyway"
 
-TEXT = 'fix(prod): the 3 AM deploy ate the database, so I rolled it back, apologised to the on-call human, and am now pretending this commit was always the plan'
+OUTPUT = Path("/output/entry.txt")
 
 
-def main():
-    os.makedirs("/output", exist_ok=True)
-    with open("/output/entry.txt", "w", encoding="utf-8") as f:
-        f.write(TEXT)
+def write_entry() -> None:
+    text = ENTRY.strip()
+    assert text, "entry must not be blank"
+    OUTPUT.parent.mkdir(parents=True, exist_ok=True)
+    OUTPUT.write_text(text, encoding="utf-8")
 
 
 if __name__ == "__main__":
-    main()
+    write_entry()
